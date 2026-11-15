@@ -1,0 +1,41 @@
+{
+  "feature_columns": [
+    "hour",
+    "day_of_week",
+    "day_of_month",
+    "month",
+    "year",
+    "is_weekend",
+    "week_of_year",
+    "lag_1",
+    "lag_2",
+    "lag_3",
+    "lag_24",
+    "lag_48",
+    "lag_168",
+    "rolling_mean_24",
+    "rolling_mean_168",
+    "rolling_std_24",
+    "rolling_std_168",
+    "rolling_min_24",
+    "rolling_max_24"
+  ],
+  "selected_approach": "Random Forest",
+  "strongest_baseline": "Previous hour",
+  "selection_metric": "Validation MAE",
+  "baseline_column": null,
+  "clip_predictions_min": 0,
+  "assumption": "Rolling one-step-ahead: actual demand through t-1 is available at each t. Historical validation observations may enter subsequent features. This is not an unobserved future-week forecast; no recursive forecasting is implemented.",
+  "versions": {
+    "python": "3.13.9",
+    "scikit-learn": "1.7.2",
+    "xgboost": "3.4.1",
+    "pandas": "2.3.3",
+    "numpy": "2.3.5"
+  },
+  "random_state": 42,
+  "training_start": "2012-09-01 00:00:00",
+  "training_end": "2014-02-11 11:00:00",
+  "validation_start": "2014-02-11 12:00:00",
+  "validation_end": "2014-06-04 17:00:00"
+}

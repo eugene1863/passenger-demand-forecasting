@@ -1,0 +1,44 @@
+Retrospective pre-test development evaluation, informed by earlier model selection and diagnostics; not independent final test performance. No tuning or model selection is performed here. Errors can accumulate recursively; one-step backtest scores are not directly comparable.
+
+Origin scores are dependent: expanding training sets overlap and demand is serially correlated. Daily 24-hour windows abut; weekly windows are separated, but neither provides independent samples. If forecast windows overlap, repeated targets are weighted once per forecast case in pooled metrics. No IID confidence intervals or significance claims are made. Lower development error does not prove future generalization; fully independent evaluation requires new unseen chronological data.
+
+Origins: 67; forecasts per strategy: 1608; all strategy rows: 4824; unique target timestamps: 1608.
+
+Overall pooled metrics (MBE > 0 overprediction; MBE < 0 underprediction; WAPE in %):
+
+             Strategy  Forecasts  Origins  Mean_Actual     MAE    RMSE     MBE  WAPE_pct
+   RF delta expanding       1608       67     147.7811 33.0782 56.5032 -1.8859   22.3832
+Recursive persistence       1608       67     147.7811 51.2164 74.7746  9.5920   34.6569
+   Seasonal naive 24h       1608       67     147.7811 37.0062 62.6338  0.5112   25.0412
+
+RF beats seasonal naive at 50/67 origins (74.63%); ties within 1e-10: 0. Wins use strict lower MAE; inspect all origin differences.
+
+RF early horizons 1-6 MAE: 23.0846; late horizons 19-24 MAE: 36.3497; descriptive horizon-MAE linear slope: 0.7256 passengers/hour. A slope is not evidence of monotonic error growth or statistical significance.
+
+Actual-demand diagnostic thresholds: {'low_max_inclusive': 58.0, 'high_min_exclusive': 222.0}. Low <= Q25, High > Q75, otherwise Middle. Thresholds use unique evaluated actuals after prediction, never model features or tuning. MAE scales with demand; inspect WAPE, bias and sample counts alongside MAE.
+
+Demand diagnostics:
+
+             Strategy Demand_Level  Forecasts  Origins  Mean_Actual     MAE     RMSE      MBE  WAPE_pct
+   RF delta expanding         High        392       36     301.5459 59.8867  93.7454 -32.5765   19.8599
+   RF delta expanding          Low        409       41      32.8900 11.6388  17.6679   5.3090   35.3871
+   RF delta expanding       Middle        807       61     131.3185 30.9217  43.9819   9.3756   23.5471
+Recursive persistence         High        392       36     301.5459 80.0408 110.9289 -28.2041   26.5435
+Recursive persistence          Low        409       41      32.8900 27.4572  39.8215  19.4083   83.4820
+Recursive persistence       Middle        807       61     131.3185 49.2565  66.0301  22.9765   37.5092
+   Seasonal naive 24h         High        392       36     301.5459 71.6122 107.6718 -13.8878   23.7484
+   Seasonal naive 24h          Low        409       41      32.8900 12.2347  16.8206   1.6137   37.1989
+   Seasonal naive 24h       Middle        807       61     131.3185 32.7509  45.1888   6.9467   24.9401
+
+Weekday/weekend diagnostics:
+
+             Strategy Day_Type  Forecasts  Origins  Mean_Actual     MAE    RMSE     MBE  WAPE_pct
+   RF delta expanding  Weekday       1608       67     147.7811 33.0782 56.5032 -1.8859   22.3832
+Recursive persistence  Weekday       1608       67     147.7811 51.2164 74.7746  9.5920   34.6569
+   Seasonal naive 24h  Weekday       1608       67     147.7811 37.0062 62.6338  0.5112   25.0412
+
+Sampled target weekdays: Thursday, Friday.
+
+Weekly origins have fixed weekday composition and do not cover the full week. Missing weekdays/day types cannot be compared. Use --stride-days 1 for broader coverage; calendar mix, hour mix, time trend and training size confound group comparisons.
+
+Training labels strictly precede origin, matching forecast_24h.py; actual context includes origin. Forests refit once per origin; no saved models are loaded or overwritten. No test-period counts are used for fitting, validation, selection or tuning.

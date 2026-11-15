@@ -1,0 +1,88 @@
+{
+  "status": "complete",
+  "arguments": {
+    "stride_days": 1,
+    "min_history_days": 180,
+    "start": "2014-05-19 00:00",
+    "end": "2014-06-01 00:00"
+  },
+  "cutoff_exclusive": "2014-06-04 18:00:00",
+  "origins": [
+    "2014-05-19 00:00:00",
+    "2014-05-20 00:00:00",
+    "2014-05-21 00:00:00",
+    "2014-05-22 00:00:00",
+    "2014-05-23 00:00:00",
+    "2014-05-24 00:00:00",
+    "2014-05-25 00:00:00",
+    "2014-05-26 00:00:00",
+    "2014-05-27 00:00:00",
+    "2014-05-28 00:00:00",
+    "2014-05-29 00:00:00",
+    "2014-05-30 00:00:00",
+    "2014-05-31 00:00:00",
+    "2014-06-01 00:00:00"
+  ],
+  "candidate_origins": 14,
+  "excluded_origins": 0,
+  "features": [
+    "hour",
+    "day_of_week",
+    "day_of_month",
+    "month",
+    "year",
+    "is_weekend",
+    "week_of_year",
+    "lag_1",
+    "lag_2",
+    "lag_3",
+    "lag_24",
+    "lag_48",
+    "lag_168",
+    "rolling_mean_24",
+    "rolling_mean_168",
+    "rolling_std_24",
+    "rolling_std_168",
+    "rolling_min_24",
+    "rolling_max_24"
+  ],
+  "rf_params": {
+    "n_estimators": 200,
+    "max_depth": 15,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "n_jobs": 4
+  },
+  "target": "Count - lag_1",
+  "training_labels": "strictly before origin",
+  "observed_context": "through origin inclusive",
+  "horizon_hours": 24,
+  "refit": "once per origin; unchanged RF configuration",
+  "cache": "in-memory causal training features only",
+  "python": "3.13.9",
+  "executable": "C:\\Users\\mwang\\anaconda3\\python.exe",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "packages": {
+    "pandas": "2.3.3",
+    "numpy": "2.3.5",
+    "sklearn": "1.7.2",
+    "matplotlib": "3.10.6",
+    "seaborn": "0.13.2"
+  },
+  "source_sha256": {
+    "features.py": "fdb4f9b25d2a5b5608090240b24140a607d30e555ac218c21369e28b2d74cf4c",
+    "backtesting.py": "77fcd83a86ab1bd52eaaaf43276eeceb4cf36470721bf175de81bbfb47f0c5b0",
+    "forecast_24h.py": "f61c9ab296f24414166dd786f5187c9a3787242ce751786a4de9ca7f8ab5a9fc",
+    "forecast_validation.py": "514ffda9c5693ebb029fa07cf82cc49d04f9346122406a2b8a659f23c3d030c7"
+  },
+  "disclaimer": "Retrospective pre-test development evaluation, informed by earlier model selection and diagnostics; not independent final test performance. No tuning or model selection is performed here. Errors can accumulate recursively; one-step backtest scores are not directly comparable.",
+  "dependence": "Origin scores are dependent: expanding training sets overlap and demand is serially correlated. Daily 24-hour windows abut; weekly windows are separated, but neither provides independent samples. If forecast windows overlap, repeated targets are weighted once per forecast case in pooled metrics. No IID confidence intervals or significance claims are made. Lower development error does not prove future generalization; fully independent evaluation requires new unseen chronological data.",
+  "feature_validation": "recursive parity/isolation and cached-prefix parity passed",
+  "demand_thresholds": {
+    "low_max_inclusive": 210.0,
+    "high_min_exclusive": 398.0
+  },
+  "origins_evaluated": 14,
+  "forecasts_per_strategy": 336,
+  "unique_target_timestamps": 336
+}

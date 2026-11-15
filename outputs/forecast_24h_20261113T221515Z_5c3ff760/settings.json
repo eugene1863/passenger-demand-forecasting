@@ -1,0 +1,56 @@
+{
+  "arguments": {
+    "origins": 6,
+    "spacing_days": 30,
+    "min_history_days": 180,
+    "origin": null
+  },
+  "origins": [
+    "2014-01-04 17:00:00",
+    "2014-02-03 17:00:00",
+    "2014-03-05 17:00:00",
+    "2014-04-04 17:00:00",
+    "2014-05-04 17:00:00",
+    "2014-06-03 17:00:00"
+  ],
+  "cutoff_exclusive": "2014-06-04 18:00:00",
+  "features": [
+    "hour",
+    "day_of_week",
+    "day_of_month",
+    "month",
+    "year",
+    "is_weekend",
+    "week_of_year",
+    "lag_1",
+    "lag_2",
+    "lag_3",
+    "lag_24",
+    "lag_48",
+    "lag_168",
+    "rolling_mean_24",
+    "rolling_mean_168",
+    "rolling_std_24",
+    "rolling_std_168",
+    "rolling_min_24",
+    "rolling_max_24"
+  ],
+  "rf_params": {
+    "n_estimators": 200,
+    "max_depth": 15,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "n_jobs": 4
+  },
+  "target": "Count - lag_1",
+  "training_labels": "strictly before origin",
+  "available_observations": "through origin inclusive",
+  "horizon_hours": 24,
+  "refit": "once per origin",
+  "feature_validation": "passed",
+  "disclaimer": "Retrospective pre-test development evaluation, informed by earlier model selection and diagnostics; not independent final test performance. No tuning or model selection is performed here. Errors can accumulate recursively; one-step backtest scores are not directly comparable.",
+  "python": "3.13.9",
+  "pandas": "2.3.3",
+  "numpy": "2.3.5",
+  "sklearn": "1.7.2"
+}

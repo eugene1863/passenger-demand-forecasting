@@ -1,0 +1,8 @@
+pandas
+-r requirements-dashboard.txt
+numpy
+matplotlib
+seaborn
+scikit-learn
+xgboost
+joblib

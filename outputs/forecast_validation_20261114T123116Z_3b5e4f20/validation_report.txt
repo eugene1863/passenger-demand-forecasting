@@ -1,0 +1,47 @@
+Retrospective pre-test development evaluation, informed by earlier model selection and diagnostics; not independent final test performance. No tuning or model selection is performed here. Errors can accumulate recursively; one-step backtest scores are not directly comparable.
+
+Origin scores are dependent: expanding training sets overlap and demand is serially correlated. Daily 24-hour windows abut; weekly windows are separated, but neither provides independent samples. If forecast windows overlap, repeated targets are weighted once per forecast case in pooled metrics. No IID confidence intervals or significance claims are made. Lower development error does not prove future generalization; fully independent evaluation requires new unseen chronological data.
+
+Origins: 14; forecasts per strategy: 336; all strategy rows: 1008; unique target timestamps: 336.
+
+Overall pooled metrics (MBE > 0 overprediction; MBE < 0 underprediction; WAPE in %):
+
+             Strategy  Forecasts  Origins  Mean_Actual     MAE     RMSE      MBE  WAPE_pct
+   RF delta expanding        336       14     306.9940 55.3857  71.8834 -10.0077   18.0413
+Recursive persistence        336       14     306.9940 99.4107 122.7482  10.7202   32.3820
+   Seasonal naive 24h        336       14     306.9940 79.5536 104.7869  -5.4940   25.9137
+
+RF beats seasonal naive at 12/14 origins (85.71%); ties within 1e-10: 0. Wins use strict lower MAE; inspect all origin differences.
+
+RF early horizons 1-6 MAE: 30.5310; late horizons 19-24 MAE: 65.4818; descriptive horizon-MAE linear slope: 2.0244 passengers/hour. A slope is not evidence of monotonic error growth or statistical significance.
+
+Actual-demand diagnostic thresholds: {'low_max_inclusive': 210.0, 'high_min_exclusive': 398.0}. Low <= Q25, High > Q75, otherwise Middle. Thresholds use unique evaluated actuals after prediction, never model features or tuning. MAE scales with demand; inspect WAPE, bias and sample counts alongside MAE.
+
+Demand diagnostics:
+
+             Strategy Demand_Level  Forecasts  Origins  Mean_Actual      MAE     RMSE       MBE  WAPE_pct
+   RF delta expanding         High         83        9     470.6988  88.1772 106.6124  -82.6784   18.7332
+   RF delta expanding          Low         87       14     164.3448  34.9247  48.2112   16.9016   21.2509
+   RF delta expanding       Middle        166       14     299.9036  49.7135  59.6464   12.2247   16.5765
+Recursive persistence         High         83        9     470.6988 141.4940 159.9018 -139.5663   30.0604
+Recursive persistence          Low         87       14     164.3448 120.9885 135.6871  120.7586   73.6187
+Recursive persistence       Middle        166       14     299.9036  67.0602  89.7992   28.1928   22.3606
+   Seasonal naive 24h         High         83        9     470.6988 118.8916 145.9325  -88.0482   25.2585
+   Seasonal naive 24h          Low         87       14     164.3448  46.3448  60.4124   26.4368   28.1997
+   Seasonal naive 24h       Middle        166       14     299.9036  77.2892  98.3070   19.0482   25.7713
+
+Weekday/weekend diagnostics:
+
+             Strategy Day_Type  Forecasts  Origins  Mean_Actual      MAE     RMSE      MBE  WAPE_pct
+   RF delta expanding  Weekday        240       12     342.9500  61.2402  78.2360 -22.1215   17.8569
+   RF delta expanding  Weekend         96        6     217.1042  40.7494  52.7550  20.2769   18.7695
+Recursive persistence  Weekday        240       12     342.9500 115.6667 137.4934  -4.3000   33.7270
+Recursive persistence  Weekend         96        6     217.1042  58.7708  73.9856  48.2708   27.0703
+   Seasonal naive 24h  Weekday        240       12     342.9500  87.9000 114.9348 -21.3167   25.6306
+   Seasonal naive 24h  Weekend         96        6     217.1042  58.6875  73.5258  34.0625   27.0320
+
+Sampled target weekdays: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.
+
+Weekly origins have fixed weekday composition and do not cover the full week. Missing weekdays/day types cannot be compared. Use --stride-days 1 for broader coverage; calendar mix, hour mix, time trend and training size confound group comparisons.
+
+Training labels strictly precede origin, matching forecast_24h.py; actual context includes origin. Forests refit once per origin; no saved models are loaded or overwritten. No test-period counts are used for fitting, validation, selection or tuning.

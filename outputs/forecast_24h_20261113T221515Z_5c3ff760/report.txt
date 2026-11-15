@@ -1,0 +1,84 @@
+Retrospective pre-test development evaluation, informed by earlier model selection and diagnostics; not independent final test performance. No tuning or model selection is performed here. Errors can accumulate recursively; one-step backtest scores are not directly comparable.
+
+Overall metrics:
+             Strategy  Observations     MAE     RMSE
+   RF delta expanding           144 34.6877  49.5605
+Recursive persistence           144 82.4722 103.2233
+   Seasonal naive 24h           144 63.5972  85.0047
+
+Metrics by horizon:
+             Strategy  Horizon  Observations      MAE     RMSE
+   RF delta expanding        1             6  38.4642  53.1833
+   RF delta expanding        2             6  58.0386  88.8596
+   RF delta expanding        3             6  53.3639  60.9815
+   RF delta expanding        4             6  18.7913  22.8096
+   RF delta expanding        5             6  34.0432  47.5942
+   RF delta expanding        6             6  38.3329  56.2833
+   RF delta expanding        7             6  11.4529  14.8627
+   RF delta expanding        8             6  16.2341  19.0203
+   RF delta expanding        9             6  44.6489  50.2167
+   RF delta expanding       10             6  18.5282  23.5435
+   RF delta expanding       11             6  11.1164  12.2176
+   RF delta expanding       12             6   4.7963   5.7623
+   RF delta expanding       13             6  19.6817  22.5829
+   RF delta expanding       14             6  16.0243  18.4975
+   RF delta expanding       15             6  17.7438  24.0348
+   RF delta expanding       16             6  45.7506  59.1774
+   RF delta expanding       17             6  41.2112  57.7731
+   RF delta expanding       18             6  44.1547  51.0939
+   RF delta expanding       19             6  54.9756  70.7403
+   RF delta expanding       20             6  58.0026  71.3761
+   RF delta expanding       21             6  51.2325  65.0507
+   RF delta expanding       22             6  48.6884  59.8110
+   RF delta expanding       23             6  45.8366  57.8961
+   RF delta expanding       24             6  41.3922  50.7180
+Recursive persistence        1             6  40.0000  52.9654
+Recursive persistence        2             6  66.0000  95.4498
+Recursive persistence        3             6  58.0000  64.7971
+Recursive persistence        4             6  21.3333  25.0067
+Recursive persistence        5             6  41.0000  49.3626
+Recursive persistence        6             6  42.0000  56.8741
+Recursive persistence        7             6  35.0000  38.4274
+Recursive persistence        8             6  62.0000  69.7328
+Recursive persistence        9             6  58.6667  66.4731
+Recursive persistence       10             6 123.0000 130.6726
+Recursive persistence       11             6 143.3333 152.6172
+Recursive persistence       12             6 158.3333 168.7345
+Recursive persistence       13             6 155.3333 166.0241
+Recursive persistence       14             6 130.6667 142.9032
+Recursive persistence       15             6  99.3333 112.7475
+Recursive persistence       16             6  81.3333  96.4711
+Recursive persistence       17             6  77.3333  87.5214
+Recursive persistence       18             6  79.3333  96.1942
+Recursive persistence       19             6 104.3333 123.3991
+Recursive persistence       20             6  80.0000  91.7024
+Recursive persistence       21             6  94.3333 118.8641
+Recursive persistence       22             6  67.3333  89.5247
+Recursive persistence       23             6  81.3333 111.5826
+Recursive persistence       24             6  80.0000  92.5491
+   Seasonal naive 24h        1             6  62.6667  84.0079
+   Seasonal naive 24h        2             6  93.3333 112.0476
+   Seasonal naive 24h        3             6  66.3333  79.4103
+   Seasonal naive 24h        4             6  42.3333  55.6117
+   Seasonal naive 24h        5             6  63.0000  80.2870
+   Seasonal naive 24h        6             6  58.0000  73.3303
+   Seasonal naive 24h        7             6  34.6667  45.7238
+   Seasonal naive 24h        8             6  36.3333  44.7735
+   Seasonal naive 24h        9             6  66.6667  73.4938
+   Seasonal naive 24h       10             6  30.0000  36.6788
+   Seasonal naive 24h       11             6  14.6667  19.1485
+   Seasonal naive 24h       12             6  22.3333  23.6502
+   Seasonal naive 24h       13             6  31.3333  35.8701
+   Seasonal naive 24h       14             6  27.3333  29.6648
+   Seasonal naive 24h       15             6  40.6667  42.7863
+   Seasonal naive 24h       16             6  84.6667  96.5954
+   Seasonal naive 24h       17             6  94.3333 111.6990
+   Seasonal naive 24h       18             6 113.6667 136.0270
+   Seasonal naive 24h       19             6 122.0000 147.4133
+   Seasonal naive 24h       20             6  96.0000 109.0260
+   Seasonal naive 24h       21             6  84.3333 113.7571
+   Seasonal naive 24h       22             6  74.3333  95.5650
+   Seasonal naive 24h       23             6  87.3333 110.6948
+   Seasonal naive 24h       24             6  80.0000  92.5491
+
+Persistence repeats the origin count for all 24 hours. Seasonal naive repeats the observed 24-hour sequence ending at the origin. All strategies use identical outcomes.
